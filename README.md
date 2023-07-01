@@ -1,6 +1,7 @@
-# Cluster-Register-Service
+# Cluster-Gateway
 
-Spring Cloud gateway application, that implements a Register server as Open-ID connect hub to login to other services.
+Spring Cloud gateway application, that implements a login and register server as Open-ID connect hub to web-services in
+the cloud.
 
 ## Technology / External Libraries
 
@@ -35,3 +36,5 @@ Project started on 26.06.23
 > **recipe-service** under `/recipe`, that is token-relayed and prefixed by `"/api"`.
 >
 > **greeting-service** under `/hello` that is just some hello-world service greeting the user by her principal.
+>
+> more coming up soon
