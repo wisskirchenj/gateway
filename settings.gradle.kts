@@ -1,1 +1,1 @@
-rootProject.name = "register-server"
+rootProject.name = "gateway"

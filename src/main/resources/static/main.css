@@ -1,0 +1,10 @@
+main {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    font-family: "Open Sans", sans-serif;
+    background: hsl(210, 36%, 96%);
+    color: hsl(209, 61%, 16%);
+    line-height: 2;
+    font-size: 1.875rem;
+}
