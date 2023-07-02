@@ -1,15 +1,18 @@
 # Cluster-Gateway
 
 Spring Cloud gateway application, that implements a login and register server as Open-ID connect hub to web-services in
-the cloud.
+the cloud. Spring security's Oauth2-client is used for the OpenId-Login (OIDC) and Spring Webflux is
+used to serve a register endpoint (see below).
 
 ## Technology / External Libraries
 
 - Java 20
 - Spring Cloud Gateway 4.0.6
 - Spring Boot 3.1.1 Oauth-client
+- Spring Boot 3.1.1 Webflux
 - Spring AOT native image on GraalVM
 - Gradle 8.1.1
+- Tests with Spring Security `WebTestClient` and `@WithMockToken`
 
 ## Program description
 
@@ -23,6 +26,27 @@ a scope consent page is displayed to a user after login.
 As Oauth2-provider we use the new Spring
 Oauth2-AuthorizationServer, that also does the user registry and persistent User management. 
 
+## Gateway routes so far
+
+> **recipe-service** under `/recipe`, that is token-relayed and prefixed by `"/api"`.
+>
+> **greeting-service** under `/hello` that is just some hello-world service greeting the user by her principal.
+>
+> more coming up soon
+
+To register a new user, the Webflux served endpoint 
+
+> POST /api/register (**unauthenticated**)
+> ```
+> {
+>  "email": "user@test.com",
+>  "password": "password"
+> }
+
+is used.
+While this must currently be done vie `curl`, `http`(ie) or Postman, we will soon provide a Thymeleaf
+based register form.
+
 ## Project status
 
 Project started on 26.06.23
@@ -33,8 +57,6 @@ Project started on 26.06.23
 
 01.07.23 Minimal working gateway and Oauth2-client setup, that serves two routes:
 
-> **recipe-service** under `/recipe`, that is token-relayed and prefixed by `"/api"`.
->
-> **greeting-service** under `/hello` that is just some hello-world service greeting the user by her principal.
->
-> more coming up soon
+02.07.23 First functional complete version, where user registration is persisted by this Gateway app (rudimentary 
+frontend still to come up), while the connected (by redirect-uri) Spring authorization server uses
+this info via the Postgres-service to authenticate OIDC-login requests.
