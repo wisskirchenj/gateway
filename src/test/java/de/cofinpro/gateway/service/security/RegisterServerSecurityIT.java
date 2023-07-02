@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -32,7 +31,7 @@ class RegisterServerSecurityIT {
     UserMapper userMapper;
 
     @Test
-    void whenLoginUrlUnauthenticated_302RedirectToAuthServer() throws Exception {
+    void whenLoginUrlUnauthenticated_302RedirectToAuthServer() {
         webClient.post().uri("/oauth2/token")
                 .bodyValue("something")
                 .exchange()
@@ -40,14 +39,14 @@ class RegisterServerSecurityIT {
     }
 
     @Test
-    void whenFalseUrlUnauthenticated_302RedirectToAuthServer() throws Exception {
+    void whenFalseUrlUnauthenticated_302RedirectToAuthServer() {
         webClient.get().uri("/api")
                 .exchange()
                 .expectStatus().isEqualTo(302);
     }
 
     @Test
-    void registerUnauthenticatedValidJson_AddsUser() throws Exception {
+    void registerUnauthenticatedValidJson_AddsUser() {
         webClient.post().uri("/api/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new UserDto("hans.wurst@xyz.de", "12345678"))
@@ -56,7 +55,7 @@ class RegisterServerSecurityIT {
     }
 
     @Test
-    void registerUnauthenticatedExistingUser_Gives400() throws Exception {
+    void registerUnauthenticatedExistingUser_Gives400() {
         webClient.post().uri("/api/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new UserDto("test@xyz.de", "12345678"))
@@ -70,7 +69,7 @@ class RegisterServerSecurityIT {
     }
 
     @Test
-    void registerUnauthenticatedInvalidDto_Gives400() throws Exception {
+    void registerUnauthenticatedInvalidDto_Gives400() {
         webClient.post().uri("/api/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new UserDto("wrong", "1234"))
