@@ -7,13 +7,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(properties = { "spring.datasource.url=jdbc:postgresql://localhost:5432/userstest",
         "spring.jpa.hibernate.ddl-auto=create-drop"})
 @AutoConfigureWebTestClient
 class RegisterServerSecurityIT {
+
+    // needed since otherwise test tries to connect to Authorization server on AppContext creation
+    @MockBean
+    ReactiveClientRegistrationRepository clientRegistrationRepository;
 
     @Autowired
     WebTestClient webClient;
