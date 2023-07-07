@@ -28,6 +28,7 @@ public class WebSecurityConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityWebFilterChain oauth2SecurityFilterChain(ServerHttpSecurity http) {
         return http.authorizeExchange(exchange -> exchange
+                        .pathMatchers( "/register.html", "/js/register.js", "/css/register.css").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/register").permitAll()
                         .anyExchange().authenticated())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)

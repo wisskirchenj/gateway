@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register User</title>
+  <link rel="stylesheet" href="css/register.css"/>
+  <script type="text/javascript" src="js/register.js"></script>
+</head>
+<body>
+<main>
+  <header class="ui-width">
+    <h1>Register a new OpenID Connect User</h1>
+    <h2>to access Web-Services in Jürgen's Cluster</h2>
+  </header>
+  <div class="ui-width">
+    <div>
+      <label for="username">Username (Email):</label>
+      <input id="username" type="text" />
+    </div>
+    <div>
+      <label for="password">Password (min. 8 chars):</label>
+      <input id="password" type="password" />
+    </div>
+  </div>
+  <div class="ui-width" id="div_button">
+    <button id="register" type="button" onclick="register()">Submit</button>
+  </div>
+</main>
+</body>
+</html>
