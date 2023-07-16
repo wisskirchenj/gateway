@@ -10,6 +10,7 @@ plugins {
 
 group = "de.cofinpro"
 version = "0.1.1-SNAPSHOT"
+val dockerHubRepo = "wisskirchenj/"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -24,8 +25,6 @@ configurations {
 repositories {
     mavenCentral()
 }
-
-extra["hibernate.version"] = "6.1.7.Final" // temporary, I hope
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
@@ -51,5 +50,6 @@ tasks.withType<Test> {
 tasks.named<BootBuildImage>("bootBuildImage") {
     Instrumented.systemProperty("spring.profiles.active", "k8s")
     builder.set("dashaun/builder:tiny")
+    imageName.set(dockerHubRepo + rootProject.name + ":" + version)
     environment.put("BP_NATIVE_IMAGE", "true")
 }
