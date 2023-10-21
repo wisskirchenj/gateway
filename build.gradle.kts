@@ -2,13 +2,13 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
     java
-    id("org.springframework.boot") version "3.1.2"
-    id("io.spring.dependency-management") version "1.1.2"
-    id("org.graalvm.buildtools.native") version "0.9.23"
+    id("org.springframework.boot") version "3.1.5"
+    id("io.spring.dependency-management") version "1.1.3"
+    id("org.graalvm.buildtools.native") version "0.9.28"
 }
 
 group = "de.cofinpro"
-version = "0.1.2-SNAPSHOT"
+version = "0.1.3-SNAPSHOT"
 val dockerHubRepo = "wisskirchenj/"
 
 java {
@@ -30,7 +30,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway:4.0.6")
+    implementation("org.springframework.cloud:spring-cloud-starter-gateway:4.0.7")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     compileOnly("org.projectlombok:lombok")
