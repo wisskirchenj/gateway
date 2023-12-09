@@ -1,6 +1,7 @@
 package de.cofinpro.gateway.web;
 
 import de.cofinpro.gateway.user.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +10,10 @@ import org.springframework.stereotype.Component;
  * mapper to map received UserDto on register to a User entity, hereby encoding the raw password.
  */
 @Component
+@RequiredArgsConstructor
 public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
-
-    public UserMapper(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     /**
      * map the Dto to the entity and encode the password hereby.

@@ -1,28 +1,36 @@
 package de.cofinpro.gateway.service.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.cofinpro.gateway.service.RegisterService;
 import de.cofinpro.gateway.web.UserDto;
 import de.cofinpro.gateway.web.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.test.context.aot.DisabledInAotMode;
+import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(properties = { "spring.datasource.url=jdbc:postgresql://localhost:5432/userstest",
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest(properties = {"spring.datasource.url=jdbc:postgresql://localhost:5432/userstest",
         "spring.jpa.hibernate.ddl-auto=create-drop"})
-@AutoConfigureWebTestClient
+@AutoConfigureMockMvc
+@DisabledInAotMode // bug in Spring 3.2 @MockBean does not work in AOT mode (https://github.com/spring-projects/spring-boot/issues/36997)
 class RegisterServerSecurityIT {
 
     // needed since otherwise test tries to connect to Authorization server on AppContext creation
     @MockBean
-    ReactiveClientRegistrationRepository clientRegistrationRepository;
+    ClientRegistrationRepository clientRegistrationRepository;
 
     @Autowired
-    WebTestClient webClient;
+    MockMvc mockMvc;
 
     @Autowired
     RegisterService registerService;
@@ -30,50 +38,53 @@ class RegisterServerSecurityIT {
     @Autowired
     UserMapper userMapper;
 
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    @MockBean
+    JwtDecoder jwtDecoder;
+
     @Test
-    void whenLoginUrlUnauthenticated_302RedirectToAuthServer() {
-        webClient.post().uri("/oauth2/token")
-                .bodyValue("something")
-                .exchange()
-                .expectStatus().isEqualTo(302);
+    void whenLoginUrlUnauthenticated_302RedirectToAuthServer() throws Exception {
+        mockMvc.perform(post("/oauth2/token")
+                        .content("something"))
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    void whenFalseUrlUnauthenticated_302RedirectToAuthServer() {
-        webClient.get().uri("/api")
-                .exchange()
-                .expectStatus().isEqualTo(302);
+    void whenFalseUrlUnauthenticated_302RedirectToAuthServer() throws Exception {
+        mockMvc.perform(get("/api"))
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    void registerUnauthenticatedValidJson_AddsUser() {
-        webClient.post().uri("/api/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new UserDto("hans.wurst@xyz.de", "12345678"))
-                .exchange()
-                .expectStatus().isOk();
+    void registerUnauthenticatedValidJson_AddsUser() throws Exception {
+        mockMvc.perform(post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new UserDto("hans.wurst@xyz.de", "12345678"))))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void registerUnauthenticatedExistingUser_Gives400() {
-        webClient.post().uri("/api/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new UserDto("test@xyz.de", "12345678"))
-                .exchange()
-                .expectStatus().isOk();
-        webClient.post().uri("/api/register")       // and again
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new UserDto("test@xyz.de", "12345678"))
-                .exchange()
-                .expectStatus().isBadRequest();
+    void registerUnauthenticatedExistingUser_Gives400() throws Exception {
+        mockMvc.perform(post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new UserDto("test@xyz.de", "12345678"))))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/api/register") // and again
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new UserDto("test@xyz.de", "12345678"))))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void registerUnauthenticatedInvalidDto_Gives400() {
-        webClient.post().uri("/api/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(new UserDto("wrong", "1234"))
-                .exchange()
-                .expectStatus().isBadRequest();
+    void registerUnauthenticatedInvalidDto_Gives400() throws Exception {
+        mockMvc.perform(post("/api/register") // and again
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new UserDto("wrong", "1234"))))
+                .andExpect(status().isBadRequest());
     }
 }

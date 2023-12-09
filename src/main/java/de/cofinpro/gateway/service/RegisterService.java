@@ -2,17 +2,14 @@ package de.cofinpro.gateway.service;
 
 import de.cofinpro.gateway.user.User;
 import de.cofinpro.gateway.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RegisterService {
-    private final UserRepository repository;
 
-    @Autowired
-    public RegisterService(UserRepository userRepository) {
-        this.repository = userRepository;
-    }
+    private final UserRepository repository;
 
     /**
      * method receives and saves the User entity with data mapped from the UserDto (name and encrypted password),

@@ -6,13 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -21,17 +22,18 @@ import static org.springframework.security.config.Customizer.withDefaults;
  * as well as PasswordProvider and AuthenticationManager that makes use of our UserDetails persistence.
  */
 @Configuration
-@EnableWebFluxSecurity
+@EnableWebSecurity
 public class WebSecurityConfig {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityWebFilterChain oauth2SecurityFilterChain(ServerHttpSecurity http) {
-        return http.authorizeExchange(exchange -> exchange
-                        .pathMatchers( "/register.html", "/js/register.js", "/css/register.css").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/register").permitAll()
-                        .anyExchange().authenticated())
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+    public SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(CsrfConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/register.html", "/js/register.js", "/css/register.css").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
+                        .anyRequest().authenticated())
                 .oauth2Login(withDefaults())
                 .oauth2Client(withDefaults())
                 .build();

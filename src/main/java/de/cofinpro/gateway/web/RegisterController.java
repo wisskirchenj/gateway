@@ -2,7 +2,7 @@ package de.cofinpro.gateway.web;
 
 import de.cofinpro.gateway.service.RegisterService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,18 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/register")
 public class RegisterController {
 
     private final RegisterService service;
     private final UserMapper mapper;
-
-    @Autowired
-    public RegisterController(RegisterService service,
-                              UserMapper mapper) {
-        this.service = service;
-        this.mapper = mapper;
-    }
 
     /**
      * register endpoint - unauthenticated (!).
