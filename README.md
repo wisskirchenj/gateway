@@ -60,3 +60,13 @@ Project started on 26.06.23
 02.07.23 First functional complete version, where user registration is persisted by this Gateway app (rudimentary 
 frontend still to come up), while the connected (by redirect-uri) Spring authorization server uses
 this info via the Postgres-service to authenticate OIDC-login requests.
+
+09.12.23 Migrated project to use new 2023.0.0 Spring Cloud Gateway Mvc together with Spring Boot 3.2.
+Migration effort mainly was 
+- rewriting the GatewayConfig, 
+- adapt the WebSecurityConfig from Webflux to Mvc and 
+- replacing the `WebTestClient` with `MockMvc` in the integration tests.
+
+Faced problems were some CGLIB inconsistency with Spring framework 6.1, that prevented the use of @MockBean in
+test-AOT as well as some proxy generation in processAOT steps. Also I ended up disabling Spring Boot Devtools
+as they prevented stable application startup.

@@ -1,9 +1,7 @@
 package de.cofinpro.gateway.service.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.cofinpro.gateway.service.RegisterService;
 import de.cofinpro.gateway.web.UserDto;
-import de.cofinpro.gateway.web.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,15 +30,7 @@ class RegisterServerSecurityIT {
     MockMvc mockMvc;
 
     @Autowired
-    RegisterService registerService;
-
-    @Autowired
-    UserMapper userMapper;
-
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    @MockBean
-    JwtDecoder jwtDecoder;
+    ObjectMapper objectMapper;
 
     @Test
     void whenLoginUrlUnauthenticated_302RedirectToAuthServer() throws Exception {
