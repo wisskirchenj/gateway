@@ -1,18 +1,16 @@
 # Cluster-Gateway
 
-Spring Cloud gateway application, that implements a login and register server as Open-ID connect hub to web-services in
+Spring Cloud gateway MVC application, that implements a login and register server as Open-ID connect hub to web-services in
 the cloud. Spring security's Oauth2-client is used for the OpenId-Login (OIDC) and Spring Webflux is
 used to serve a register endpoint (see below).
 
 ## Technology / External Libraries
 
-- Java 20
-- Spring Cloud Gateway 4.0.6
-- Spring Boot 3.1.1 Oauth-client
-- Spring Boot 3.1.1 Webflux
+- Java 21
+- Spring Cloud Gateway Mvc 4.1.0
+- Spring Boot 3.2 with Oauth-client
 - Spring AOT native image on GraalVM
-- Gradle 8.1.1
-- Tests with Spring Security `WebTestClient` and `@WithMockToken`
+- Gradle 8.5
 
 ## Program description
 
