@@ -16,8 +16,18 @@
 
 package org.springframework.cloud.gateway.server.mvc.config;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.context.properties.bind.handler.IgnoreTopLevelConverterNotFoundBindHandler;
@@ -49,15 +59,6 @@ import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.RouterFunctions;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 
 import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions.route;
 
@@ -145,8 +146,6 @@ public class RouterFunctionHolderFactory {
 		builder.before(BeforeFilterFunctions.routeId(routeId));
 
 		MultiValueMap<String, OperationMethod> handlerOperations = handlerDiscoverer.getOperations();
-		log.info(LogMessage.format("Found %d handler operations", handlerOperations.size()));
-		log.info("Found handler operations" + handlerOperations);
 		// TODO: cache?
 		// translate handlerFunction
 		String scheme = routeProperties.getUri().getScheme();
@@ -159,11 +158,9 @@ public class RouterFunctionHolderFactory {
 		Optional<NormalizedOperationMethod> handlerOperationMethod = findOperation(handlerOperations,
 				scheme.toLowerCase(), handlerArgs);
 		if (handlerOperationMethod.isEmpty()) {
-			throw new IllegalStateException("Unable to find HandlerFunction for scheme: " + scheme + " and args "
-					+ handlerArgs + " in " + handlerOperations);
+			throw new IllegalStateException("Unable to find HandlerFunction for scheme: " + scheme);
 		}
 		NormalizedOperationMethod normalizedOpMethod = handlerOperationMethod.get();
-		log.info("Found handler operation method" + normalizedOpMethod.getMethod());
 		Object response = invokeOperation(normalizedOpMethod, normalizedOpMethod.getNormalizedArgs());
 		HandlerFunction<ServerResponse> handlerFunction = null;
 		if (response instanceof HandlerFunction<?>) {
