@@ -1,5 +1,8 @@
 package de.cofinpro.gateway.aot;
 
+import java.util.Arrays;
+import java.util.Set;
+
 import org.hibernate.query.CommonQueryContract;
 import org.hibernate.query.SelectionQuery;
 import org.hibernate.query.hql.spi.SqmQueryImplementor;
@@ -24,10 +27,6 @@ import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.cloud.gateway.server.mvc.predicate.GatewayRequestPredicates;
 import org.springframework.lang.NonNull;
 import org.springframework.util.ClassUtils;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Set;
 
 public class HibernateProxyRegistrar implements RuntimeHintsRegistrar {
 
