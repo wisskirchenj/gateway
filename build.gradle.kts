@@ -7,12 +7,13 @@ plugins {
     id("org.graalvm.buildtools.native") version "0.9.28"
 }
 val springCloudVersion = "2023.0.0"
-
+val springCloudGatewayVersion = "4.1.2-SNAPSHOT"
+/*
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
     }
-}
+}*/
 
 group = "de.cofinpro"
 version = "0.1.4-SNAPSHOT"
@@ -26,6 +27,9 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://repo.spring.io/snapshot") // to use snapshot versions
+    }
 }
 
 dependencies {
@@ -34,7 +38,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway-mvc")
+    implementation("org.springframework.cloud:spring-cloud-starter-gateway-mvc:${springCloudGatewayVersion}")
+    implementation("org.springframework.cloud:spring-cloud-gateway:${springCloudGatewayVersion}")
 
     compileOnly("org.projectlombok:lombok")
     //developmentOnly("org.springframework.boot:spring-boot-devtools")

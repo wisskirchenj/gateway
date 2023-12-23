@@ -17,8 +17,8 @@ import static org.springframework.web.servlet.function.RouterFunctions.route;
 /**
  * Configuration class setting up all routes to the code endpoints
  */
-@Configuration
-@ConfigurationProperties("gateway.routes")
+//@Configuration
+//@ConfigurationProperties("gateway.routes")
 @Getter
 @Setter
 public class GatewayConfig {
