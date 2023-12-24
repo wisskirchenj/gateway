@@ -1,0 +1,11 @@
+{
+  "name": "Peas",
+  "category": "vegetables",
+  "description" : "delicious peas",
+  "ingredients": [
+    "sth"
+  ],
+  "directions": [
+    "cook peas"
+  ]
+}
