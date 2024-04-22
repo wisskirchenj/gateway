@@ -6,8 +6,8 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     id("org.graalvm.buildtools.native") version "0.10.1"
 }
-val springCloudVersion = "2023.0.1"
 
+val springCloudVersion = "2023.0.1"
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
@@ -40,7 +40,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-gateway-mvc")
 
     compileOnly("org.projectlombok:lombok")
-    //developmentOnly("org.springframework.boot:spring-boot-devtools")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
