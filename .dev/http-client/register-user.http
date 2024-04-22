@@ -1,0 +1,5 @@
+###
+POST http://localhost:6600/api/register
+Content-Type: application/json
+
+< json/juergen.json
