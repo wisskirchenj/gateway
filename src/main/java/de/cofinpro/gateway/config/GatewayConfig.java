@@ -2,9 +2,7 @@ package de.cofinpro.gateway.config;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
 
@@ -17,8 +15,8 @@ import static org.springframework.web.servlet.function.RouterFunctions.route;
 /**
  * Configuration class setting up all routes to the code endpoints
  */
-@Configuration
-@ConfigurationProperties("gateway.routes")
+//@Configuration
+//@ConfigurationProperties("gateway.routes")
 @Getter
 @Setter
 public class GatewayConfig {

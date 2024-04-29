@@ -15,7 +15,7 @@ dependencyManagement {
 }
 
 group = "de.cofinpro"
-version = "0.1.6-SNAPSHOT"
+version = "0.1.7-SNAPSHOT"
 val dockerHubRepo = "wisskirchenj/"
 
 configurations {
