@@ -15,7 +15,7 @@ dependencyManagement {
 }
 
 group = "de.cofinpro"
-version = "0.1.4-SNAPSHOT"
+version = "0.1.6-SNAPSHOT"
 val dockerHubRepo = "wisskirchenj/"
 
 configurations {
@@ -53,8 +53,9 @@ tasks.withType<Test> {
 }
 
 tasks.named<BootBuildImage>("bootBuildImage") {
-    builder.set("dashaun/builder:tiny")
+//    buildpacks.set(listOf("paketobuildpacks/java:beta"))
+    buildpacks.set(listOf("paketobuildpacks/java-native-image:latest"))
+    builder.set("paketobuildpacks/builder-jammy-buildpackless-tiny")
     imageName.set(dockerHubRepo + rootProject.name + ":" + version)
     createdDate.set("now")
-    environment.put("BP_NATIVE_IMAGE", "true")
 }
