@@ -2,20 +2,32 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
     java
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("org.graalvm.buildtools.native") version "0.10.1"
+    id("org.springframework.boot") version "3.3.0"
+    id("io.spring.dependency-management") version "1.1.5"
+    id("org.graalvm.buildtools.native") version "0.10.2"
 }
 
-val springCloudVersion = "2023.0.1"
+graalvmNative {
+    binaries.all {
+        buildArgs.add("-H:-AddAllFileSystemProviders")
+    }
+}
+
+
+
+val springCloudVersion = "2023.0.2"
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
     }
 }
 
+java.toolchain {
+    languageVersion.set(JavaLanguageVersion.of(22))
+}
+
 group = "de.cofinpro"
-version = "0.1.6-SNAPSHOT"
+version = "0.2.0-SNAPSHOT"
 val dockerHubRepo = "wisskirchenj/"
 
 configurations {
@@ -36,7 +48,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-
     implementation("org.springframework.cloud:spring-cloud-starter-gateway-mvc")
 
     compileOnly("org.projectlombok:lombok")
@@ -53,9 +64,10 @@ tasks.withType<Test> {
 }
 
 tasks.named<BootBuildImage>("bootBuildImage") {
-//    buildpacks.set(listOf("paketobuildpacks/java:beta"))
+    // buildpacks.set(listOf("paketobuildpacks/java:latest")) // for JVM
     buildpacks.set(listOf("paketobuildpacks/java-native-image:latest"))
     builder.set("paketobuildpacks/builder-jammy-buildpackless-tiny")
+    environment.put("BP_NATIVE_IMAGE_BUILD_ARGUMENTS", "-H:-AddAllFileSystemProviders")
     imageName.set(dockerHubRepo + rootProject.name + ":" + version)
     createdDate.set("now")
 }
