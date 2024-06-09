@@ -18,8 +18,10 @@ permissions:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, self-hosted ]
+    runs-on: ${{ matrix.os }}
 
     services:
       # Label used to access the service container
