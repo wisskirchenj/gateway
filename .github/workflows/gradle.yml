@@ -23,6 +23,8 @@ jobs:
         os: [ ubuntu-latest, self-hosted ]
     runs-on: ${{ matrix.os }}
 
+    outputs:
+      version_tag: ${{ steps.image.outputs.version_tag }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 22
@@ -39,13 +41,20 @@ jobs:
     - name: Build native image
       run: ./gradlew bootBuildImage
 
+    - name: retrieve image infos
+      id: image
+      run: |
+        echo "version_tag=$(grep 'version = ' ./build.gradle.kts | awk -F'\"' '{print $2}')" >> "$GITHUB_OUTPUT"
+        echo "os_suffix=${{ matrix.os == 'ubuntu-latest' && 'amd64' || 'aarch64' }}" >> "$GITHUB_ENV"
+
     - name: Log in to the Container registry
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Push Images to Docker Registry
-      run: docker push -a ${{ secrets.DOCKERHUB_USERNAME }}/gateway
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/gateway:${{ steps.image.outputs.version_tag }}-${os_suffix}
+
   manifest:
     needs: build
     runs-on: ubuntu-latest
@@ -55,12 +64,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: retrieve image version tag
-        run: |
-          echo "version_tag=$(grep 'version = ' ./build.gradle.kts | awk -F'\"' '{print $2}')" >> "$GITHUB_ENV"
       - name: create-manifest
         run: |
           docker manifest create ${{ secrets.DOCKERHUB_USERNAME }}/gateway:latest \
-          --amend ${{ secrets.DOCKERHUB_USERNAME }}/gateway:${version_tag}-amd64 \
-          --amend ${{ secrets.DOCKERHUB_USERNAME }}/gateway:${version_tag}-aarch64
+          --amend ${{ secrets.DOCKERHUB_USERNAME }}/gateway:${{ needs.build.outputs.version_tag }}-amd64 \
+          --amend ${{ secrets.DOCKERHUB_USERNAME }}/gateway:${{ needs.build.outputs.version_tag }}}-aarch64
           docker manifest push ${{ secrets.DOCKERHUB_USERNAME }}/gateway:latest
