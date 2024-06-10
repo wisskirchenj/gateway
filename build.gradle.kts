@@ -25,7 +25,7 @@ java.toolchain {
 }
 
 group = "de.cofinpro"
-version = "0.2.1-SNAPSHOT"
+version = "0.2.1"
 val dockerHubRepo = "wisskirchenj/"
 
 configurations {
@@ -69,6 +69,6 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     buildpacks.set(listOf("paketobuildpacks/java-native-image:latest"))
     builder.set("paketobuildpacks/builder-jammy-buildpackless-tiny")
     environment.put("BP_NATIVE_IMAGE_BUILD_ARGUMENTS", "-H:-AddAllFileSystemProviders")
-    imageName.set(dockerHubRepo + rootProject.name + ":" + version)
+    imageName.set(dockerHubRepo + rootProject.name + ":" + version + "-" + System.getProperty("os.arch"))
     createdDate.set("now")
 }

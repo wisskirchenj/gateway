@@ -46,16 +46,16 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Push Images to Docker Registry
       run: docker push -a ${{ secrets.DOCKERHUB_USERNAME }}/gateway
-#  manifest:
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Login to DockerHub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#      - name: create-manifest
-#        run: |
-#          docker manifest create ${{ secrets.DOCKERHUB_USERNAME }}/gateway:latest --amend ${{ secrets.DOCKERHUB_USERNAME }}/gateway:v0.0.0-x86_64 --amend ${{ secrets.DOCKERHUB_USERNAME }}/gateway:v0.0.0-aarch_64
-#          docker manifest push ${{ secrets.DOCKERHUB_USERNAME }}/gateway:latest
+  manifest:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: create-manifest
+        run: |
+          docker manifest create ${{ secrets.DOCKERHUB_USERNAME }}/gateway:latest --amend ${{ secrets.DOCKERHUB_USERNAME }}/gateway:v0.2.1-x86_64 --amend ${{ secrets.DOCKERHUB_USERNAME }}/gateway:v0.2.1-aarch64
+          docker manifest push ${{ secrets.DOCKERHUB_USERNAME }}/gateway:latest
