@@ -1,4 +1,4 @@
-package de.cofinpro.gateway.user;
+package de.wisskirchenj.gateway.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
-package de.cofinpro.gateway.config;
+package de.wisskirchenj.gateway.config;
 
-import de.cofinpro.gateway.user.UserRepository;
+import de.wisskirchenj.gateway.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

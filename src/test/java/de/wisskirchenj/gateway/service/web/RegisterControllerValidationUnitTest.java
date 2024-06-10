@@ -1,6 +1,6 @@
-package de.cofinpro.gateway.service.web;
+package de.wisskirchenj.gateway.service.web;
 
-import de.cofinpro.gateway.web.UserDto;
+import de.wisskirchenj.gateway.web.UserDto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

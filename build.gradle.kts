@@ -24,8 +24,8 @@ java.toolchain {
     languageVersion.set(JavaLanguageVersion.of(22))
 }
 
-group = "de.cofinpro"
-version = "0.2.1"
+group = "de.wisskirchenj"
+version = "0.2.2"
 val dockerHubRepo = "wisskirchenj/"
 
 configurations {

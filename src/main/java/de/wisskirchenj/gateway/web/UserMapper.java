@@ -1,6 +1,6 @@
-package de.cofinpro.gateway.web;
+package de.wisskirchenj.gateway.web;
 
-import de.cofinpro.gateway.user.User;
+import de.wisskirchenj.gateway.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

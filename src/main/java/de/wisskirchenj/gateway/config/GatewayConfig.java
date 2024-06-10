@@ -1,4 +1,4 @@
-package de.cofinpro.gateway.config;
+package de.wisskirchenj.gateway.config;
 
 import lombok.Getter;
 import lombok.Setter;

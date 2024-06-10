@@ -1,4 +1,4 @@
-package de.cofinpro.gateway.service;
+package de.wisskirchenj.gateway.service;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

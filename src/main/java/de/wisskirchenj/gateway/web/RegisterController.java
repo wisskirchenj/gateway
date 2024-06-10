@@ -1,6 +1,6 @@
-package de.cofinpro.gateway.web;
+package de.wisskirchenj.gateway.web;
 
-import de.cofinpro.gateway.service.RegisterService;
+import de.wisskirchenj.gateway.service.RegisterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

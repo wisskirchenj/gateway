@@ -1,4 +1,4 @@
-package de.cofinpro.gateway.service.web;
+package de.wisskirchenj.gateway.service.web;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

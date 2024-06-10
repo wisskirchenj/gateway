@@ -1,7 +1,7 @@
-package de.cofinpro.gateway.service.security;
+package de.wisskirchenj.gateway.service.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.cofinpro.gateway.web.UserDto;
+import de.wisskirchenj.gateway.web.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

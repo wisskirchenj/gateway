@@ -1,7 +1,7 @@
-package de.cofinpro.gateway.service;
+package de.wisskirchenj.gateway.service;
 
-import de.cofinpro.gateway.user.User;
-import de.cofinpro.gateway.user.UserRepository;
+import de.wisskirchenj.gateway.user.User;
+import de.wisskirchenj.gateway.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

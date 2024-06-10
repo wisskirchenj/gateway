@@ -1,9 +1,9 @@
-package de.cofinpro.gateway.service.service;
+package de.wisskirchenj.gateway.service.service;
 
-import de.cofinpro.gateway.service.RegisterService;
-import de.cofinpro.gateway.service.UserAlreadyExistsException;
-import de.cofinpro.gateway.user.User;
-import de.cofinpro.gateway.user.UserRepository;
+import de.wisskirchenj.gateway.service.RegisterService;
+import de.wisskirchenj.gateway.service.UserAlreadyExistsException;
+import de.wisskirchenj.gateway.user.User;
+import de.wisskirchenj.gateway.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

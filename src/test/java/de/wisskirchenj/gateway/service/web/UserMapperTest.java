@@ -1,8 +1,8 @@
-package de.cofinpro.gateway.service.web;
+package de.wisskirchenj.gateway.service.web;
 
-import de.cofinpro.gateway.user.User;
-import de.cofinpro.gateway.web.UserDto;
-import de.cofinpro.gateway.web.UserMapper;
+import de.wisskirchenj.gateway.user.User;
+import de.wisskirchenj.gateway.web.UserDto;
+import de.wisskirchenj.gateway.web.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

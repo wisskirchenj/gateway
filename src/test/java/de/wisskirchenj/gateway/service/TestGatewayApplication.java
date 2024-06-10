@@ -1,6 +1,6 @@
-package de.cofinpro.gateway.service;
+package de.wisskirchenj.gateway.service;
 
-import de.cofinpro.gateway.GatewayApplication;
+import de.wisskirchenj.gateway.GatewayApplication;
 import org.springframework.boot.SpringApplication;
 
 public class TestGatewayApplication {
